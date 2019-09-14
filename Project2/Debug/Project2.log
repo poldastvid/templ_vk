@@ -1,4 +1,0 @@
-﻿  main.cpp
-c:\users\asus\desktop\vk\project\vk_profiles\vk0_1\project2\main.cpp(68): warning C4554: "&": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
-c:\users\asus\desktop\vk\project\vk_profiles\vk0_1\project2\main.cpp(36): warning C4715: print_time: значение возвращается не при всех путях выполнения
-  Project2.vcxproj -> C:\Users\Asus\Desktop\vk\project\vk_profiles\vk0_1\Debug\Project2.exe
