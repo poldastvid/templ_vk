@@ -40,8 +40,8 @@ int main(int argc, char *argv[]) {
 	
 	
 	
-	
-	string access_token, login , pass ;
+
+	string access_token, login, pass;
 	cout << "login:" << endl;
 	cin >> login;
 	cout << "password" << endl;
