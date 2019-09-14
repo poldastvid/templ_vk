@@ -61,36 +61,33 @@ namespace VK{
 	vector<items> User_1::get
 	()
 	{
-		
-		
-		
-		params_map params = {
-		   {"user_ids", ToString(id)}
-		};
-
 		string s1;
 		//s1= ToString(id)+"user.txt";
-		s1= "user.txt";
+		s1 = "user.txt";
 		ofstream fout(s1, ios_base::app);
 		if (!fout.is_open()) // если файл небыл открыт
 		{
 			cout << "Файл не может быть открыт или создан\n"; // напечатать соответствующее сообщение
 			return vector<items>(); // выполнить выход из программы
 		}
-
-		json aa = this->client->call("users.get", params);
-		//cout << aa << endl;
-		aa=aa.at("response");
-
-		aa = aa.begin().value();
-
-		id= aa.at("id").get<size_t>();
-		first_name = aa.at("first_name").get<string>();;
-		last_name = aa.at("last_name").get<string>();;
-
-
- 		//cout << "id:" << id  << "|first_name:" << first_name << "|last_name:" << last_name << endl;
-		fout << id << "|" << first_name << "|" << last_name << endl;
+		string user_ids =ToString(id);
+		for (size_t i_1 = 1; i_1 < 1000; i_1++) {
+			user_ids += ","+ToString(id+i_1);
+		}
+		params_map params = {
+		   {"user_ids", user_ids}
+		};
+		json aa;
+		json aaa = this->client->call("users.get", params);
+		aaa = aaa.at("response");
+		for (auto it = aaa.begin(); it != aaa.end(); ++it){
+			aa = it.value();
+			id = aa.at("id").get<size_t>();
+			first_name = aa.at("first_name").get<string>();;
+			last_name = aa.at("last_name").get<string>();;
+			//cout << "id:" << id  << "|first_name:" << first_name << "|last_name:" << last_name << endl;
+			fout << id << "|" << first_name << "|" << last_name << endl;
+		}
 		fout.close();
 		return vector<items>();
 	}
