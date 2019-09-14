@@ -1,6 +1,4 @@
 ﻿  main.cpp
-c:\users\asus\desktop\vk\project\vk_profiles\vk0_2\project2\main.cpp(68): warning C4554: "&": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
-c:\users\asus\desktop\vk\project\vk_profiles\vk0_2\project2\main.cpp(36): warning C4715: print_time: значение возвращается не при всех путях выполнения
-  LINK : не найден или не выполнена сборка C:\Users\Asus\Desktop\vk\project\vk_profiles\vk0_2\Debug\Project2.exe при последней инкрементной компоновке; выполняется полная компоновка
-MSVCRTD.lib(initializers.obj) : warning LNK4098: библиотека по умолчанию "libcmtd.lib" противоречит использованию других библиотек; используйте параметр /NODEFAULTLIB:library
-  Project2.vcxproj -> C:\Users\Asus\Desktop\vk\project\vk_profiles\vk0_2\Debug\Project2.exe
+c:\users\asus\desktop\vk\project\vk_profiles\vk0_1\project2\main.cpp(68): warning C4554: "&": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
+c:\users\asus\desktop\vk\project\vk_profiles\vk0_1\project2\main.cpp(36): warning C4715: print_time: значение возвращается не при всех путях выполнения
+  Project2.vcxproj -> C:\Users\Asus\Desktop\vk\project\vk_profiles\vk0_1\Debug\Project2.exe

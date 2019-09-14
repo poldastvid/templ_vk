@@ -1,102 +1,196 @@
-#ifndef VK_API_H
-#define VK_API_H
+#ifndef wiktoplaz_H
+#define wiktoplaz_H
 
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 #include "json.hpp"
-
-#include "attachment.h"
-
-namespace VK {
-
-using callback_func_cap = std::string(*)(const std::string &);
-using callback_func_fa2 = std::string(*)();
-
+using namespace std;
 using json = nlohmann::json;
+using http_params = unordered_map<string, string>;
 
-/* http params */
-using params_map = std::unordered_map<std::string, std::string>;
+namespace wiktoplaz {
+	namespace api {
+		namespace proxy6 {
+			class Error
+			{
+			private:
+				//Client client_error;
+			protected:
+				size_t error_id;//-Номер ошибки;
+				string error_mes;//Описание ошибки.
+				http_params error_list;
+			public:
+				void set_error_id(int &i);
+				string get_error_mes();
+				int error_reh(const string &method, const http_params &data, const string &rez);
+				int parse_error(const string &recuest, const string &method, const http_params &data);
+			};
 
-class Client {
+			class country {
+			private:
+			public:
+				string name;
+				int count;
+				//доступном кол - во прокси для страны;
 
-private:
+				void getcount(
+					string country, ///-(Обязательный)-Код страны в формате iso2;
+					int version ///- Версия прокси : 4 - IPv4, 3 - IPv4 Shared, 6 - IPv6(по - умолчанию).
+					///Вывод count - Доступное кол - во. count_country
+				);
+			};
 
-    static const std::string app_id;
-    static const std::string app_secret;
-    static const std::string scope;
-    static const std::string auth_url;
-    static const std::string api_url;
+			class proksy_item {
+			private:
+				int id;/// - Внутренний номер прокси, необходим для продления срока действия - метод prolong
+				string ip;///- IPv4, либо IPv6 скрытый за host : port - зависит от версии прокси;
+				string host;/// - IPv4;
+				int port;///- Порт;
+				string user;/// - Логин;
+				string pass;///- Пароль;
+				string type;/// - Тип прокси : http - HTTPS, socks - SOCKS5;
+				string country;/// - Страна(iso2);
+				string date;/// - Дата покупки прокси;
+				string date_end;/// - Дата окончания срока действия прокси;
+				size_t unixtime;/// " : 1466379159,
+				size_t unixtime_end;/// : 1468349441,
+				string descr;/// - Технический комментарий;
+				bool active;///  - Активный(1) или нет(0).
 
-  
-    std::string captcha_sid;
-    std::string captcha_key;
-    std::string fa2_code;
-
-    std::string l_error;
-
-    callback_func_cap captcha_callback = nullptr;
-    callback_func_fa2 fa2_callback = nullptr;
-
-    inline std::string get_captcha_key(const std::string &captcha_sid);
-    inline std::string get_fa2_code();
-
-    std::string curl_buffer;
-
-protected:
-    std::string version;
-    std::string lang;
-    Attachment::User user;
-    bool check_access();
-    std::string request(const std::string &url, const std::string &data);
-
-public:
-	std::string a_t;
-    Client(const std::string _version = "5.65",
-           const std::string _lang = "en",
-           const callback_func_cap cap_callback = nullptr,
-           const callback_func_fa2 _fa2_callback = nullptr);
-
-    bool auth(const std::string &login, const std::string &pass,
-              const std::string &access_token = "");
-
-    bool oauth(const callback_func_cap handler);
-	
-    json call(const std::string &method, const params_map &params);
-
-    json call(const std::string &method, const std::string &params = "");
-
-    void clear();
-
-    std::string first_name() const;
-    std::string last_name() const;
-    size_t user_id() const;
-
-    std::string access_token() const;
-    std::string last_error() const;
-
-    void set_fa2_callback(const callback_func_fa2 _fa2_callback = nullptr);
-    void set_cap_callback(const callback_func_cap cap_callback = nullptr);
-
-    virtual ~Client() {}
-};
+			protected:
+			public:
 
 
-/* Network utils
- */
-class Utils {
-public:
-    static std::string data2str(const params_map &data);
-    static std::string urlencode(const std::string &url);
-    static std::string char2hex(const char dec);
-    static int CURL_WRITER(char *data, size_t size, size_t nmemb, std::string *buffer);
-};
+			};
+
+			
+
+			class proxy6 {
+			protected:
+				
+			private:
+				string l_error;
+				string curl_buffer;
+				static const string app_secret;
+				static const string api_url;
+				string user_id;///Номер вашего аккаунта;
+				double balance;///Текущее состояние вашего баланса;
+				string currency;///Валюта вашего аккаунта (RUB, либо USD).
+				vector<country> countrys;///список стран
+				http_params params_temp;///временная переменная параметров запроса
+				string metod_temp;///временная переменная метода запроса
+				double getprice_price;/// -Итоговая стоимость;
+				double getprice_price_single;///-Стоимость одного прокси;
+				int getprice_period;///-Запрошенный период(кол - во дней);
+				int getprice_count;///-Запрошенное кол - во прокси.
 
 
-} // namespace VK
+			public:
+				Error error;
+				//выводит одну страну в строчку
+				string get_countrys_item(int i);//
+				//выводит все страны в вектор строк
+				vector<country> get_countrys_all();
+				//выводит все страны в консоль
+				void get_c_countrys_all();
+				int base_parser(string &recuest);
+
+				////возможности сервиса////
+
+					//списка доступных стран;
+				void getcountry(
+					int	version/// - Версия прокси : 4 - IPv4, 3 - IPv4 Shared, 6 - IPv6(по - умолчанию).
+					///list - Массив доступных стран в формате iso2. list_country
+				);
 
 
 
+				////покупка////
 
-#endif // VK_API_H
+					//- Покупка прокси;
+				vector<proksy_item> buy(
+					int count,/// - (Обязательный)-Кол - во прокси для покупки;
+					int period, ///- (Обязательный)-Период на который покупаются прокси - кол - во дней;
+					string country, ///- (Обязательный)-Страна в формате iso2;
+					int version, ///- Версия прокси : 4 - IPv4, 3 - IPv4 Shared, 6 - IPv6(по - умолчанию);
+					string type,///- Тип прокси(протокол) : socks, либо http(по - умолчанию);
+					string descr, ///- Технический комментарий для списка прокси, максимальная длина 50 символов.Указание данного параметра позволит вам делать выборку списка прокси про этому параметру через метод getproxy
+					string auto_prolong, ///- При добавлении данного параметра(значение не требуется), у купленных прокси будет включено автопродление;
+					string nokey/// - При добавлении данного параметра(значение не требуется), список list будет возвращаться без ключей.
+					///Вывод  list_count - Кол - во прокси;list - Массив прокси->list_proksy_items
+				);
+
+				//- сумма заказа;
+				void getprice(
+					int	count,/// - (Обязательный)-Кол - во прокси;
+					int   period,/// - (Обязательный)-Период - кол - во дней;
+					int version/// - Версия прокси : 4 - IPv4, 3 - IPv4 Shared, 6 - IPv6(по - умолчанию).
+					///Вывод:price,price_single,period,count
+				);
+
+				////управление////
+
+					//- списка ваших прокси;
+				vector<proksy_item> getproxy(
+					string state = "", ///- Состояние возвращаемых прокси.Доступные значения : 
+												///active - Активные, 
+												///expired - Неактивные, 
+												///expiring - Заканчивающиеся, 
+												///all - Все(по - умолчанию);
+					string descr = "",/// Технический комментарий, который вы указывали при покупке прокси.
+					string nokey = ""/// - При добавлении данного параметра(значение не требуется), список list будет возвращаться без ключей.
+					///Вывод  list_count - Кол - во прокси;list - Массив прокси->list_proksy_items
+				);
+				//- Продление списка прокси;
+				vector<proksy_item> prolong(
+					int period,/// - (Обязательный)-Период продления - кол - во дней;
+					string ids,/// - (Обязательный)-Перечень внутренних номеров прокси в нашей системе, через запятую;
+					string nokey/// - При добавлении данного параметра(значение не требуется), список list будет возвращаться без ключей.
+					///Вывод  list_count - Кол - во прокси;list - Массив прокси->list_proksy_items
+				);
+				//- Удаление прокси;
+				void delete_proksy(
+					string ids,/// - (Обязательный)-Перечень внутренних номеров прокси в нашей системе, через запятую;
+					string descr/// - (Обязательный)-Технический комментарий, который вы указывали при покупке прокси, либо через метод setdescr.
+					///Обязательно должен присутствовать один из параметров, либо ids, либо descr.
+					///count - Кол - во удаленных прокси.
+				);
+				//- Проверка валидности прокси.
+				void check(
+					string ids// - (Обязательный)-Внутренний номер прокси в нашей системе.
+
+					///proxy_id - Внутренник номер прокси;
+					///proxy_status - Результат проверки : true или false.
+				);
+				//- Изменение типа(протокола) прокси;
+				void settype(
+					string ids,/// - (Обязательный)-Перечень внутренних номеров прокси в нашей системе, через запятую;
+					string type/// - (Обязательный)-Устанавливаемый тип(протокол) : http - HTTPS, либо socks - SOCKS5.
+					///Вывод Error или сообщение по умолчанию
+				);
+				//- Обновление технического комментария;
+				void setdescr(
+					string new_,/// - (Обязательный)-Технический комментарий, на который нужно изменить.Максимальная длина 50 символов;
+					string ids,/// - Перечень внутренних номеров прокси в нашей системе, через запятую.
+					string old/// - Технический комментарий, который нужно изменить;
+					///Обязательно должен присутствовать один из параметров, либо ids, либо old.
+					///Вывод count - Кол - во прокси у которых был изменен комментарий.
+
+				);
+
+
+				///////////////////////выполнение запросов///////////////
+
+				string call(const string &method, const params_map &params);
+				string call(const string &method, const string &params = "");
+				virtual ~Client() {}
+			};
+
+		} 
+	}
+	namespace 
+}
+
+
+#endif // wiktoplaz_H

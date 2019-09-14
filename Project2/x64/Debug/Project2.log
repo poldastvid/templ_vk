@@ -1,0 +1,12 @@
+﻿  api.cpp
+c:\users\asus\desktop\hax\procsy\project2\src\api.cpp(108): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+c:\users\asus\desktop\hax\procsy\project2\src\api.cpp(218): warning C4244: аргумент: преобразование "ValueType" в "const _Elem", возможна потеря данных
+          with
+          [
+              ValueType=float
+          ]
+          and
+          [
+              _Elem=char
+          ]
+  Project2.vcxproj -> C:\Users\Asus\Desktop\hax\procsy\x64\Debug\Project2.exe
