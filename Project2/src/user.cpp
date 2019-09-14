@@ -59,11 +59,11 @@ namespace VK{
 	}
 
 	vector<items> User_1::get
-	()
+	(size_t fot, size_t fdo)
 	{
 		string s1;
-		//s1= ToString(id)+"user.txt";
-		s1 = "user.txt";
+		s1= ToString(fot)+"_"+ ToString(fdo) +"user.txt";
+		//s1 = "user.txt";
 		ofstream fout(s1, ios_base::app);
 		if (!fout.is_open()) // если файл небыл открыт
 		{

@@ -45,7 +45,7 @@ namespace VK {
 		vector<items> get
 		(vector<items> user_ids);
 		vector<items> get
-		();
+		(size_t fot, size_t fdo);
 
 
 		///////////////////////////////////////////////////
